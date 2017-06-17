@@ -58,8 +58,3 @@ Licence
 -------
 
 MIT
-
-Authors
--------
-
-`Football Data Analysis Toolkit <https://github.com/skagr/footballdata>`_ was written by `Skag Rijsdijk <skag.rijsdijk@gmail.com>`_.
