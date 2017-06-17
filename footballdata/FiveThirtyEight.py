@@ -7,13 +7,12 @@ from footballdata.common import datadir, download_and_save
 
 
 class FiveThirtyEight(object):
-    """Provides pandas.DataFrames from 
-    the fivethirtyeight.com project "2016-17 Club Soccer Predictions"
+    """ Provides pandas.DataFrames from the fivethirtyeight.com project
+    "2016-17 Club Soccer Predictions"
 
     Data will be downloaded as necessary and cached locally in ./data
 
-
-    More info:
+    Original project and background info:
     https://projects.fivethirtyeight.com/soccer-predictions/
     https://fivethirtyeight.com/features/how-our-club-soccer-projections-work/
 
@@ -39,7 +38,6 @@ class FiveThirtyEight(object):
                 self._data[k] = v
 
     def leagues(self):
-        """A pandas.DataFrame of leagues"""
         df = (pd.DataFrame.from_dict(self._data['leagues'])
               .rename(columns={'slug': 'league', 'id': 'league_id'})
               )
@@ -49,7 +47,6 @@ class FiveThirtyEight(object):
         return df.sort_index()
 
     def games(self):
-        """A pandas.DataFrame of games"""
         keys = zip(self.league_ids, [l + '_matches' for l in self.league_ids])
 
         df = pd.concat([
@@ -62,26 +59,23 @@ class FiveThirtyEight(object):
         return df.sort_index()
 
     def forecasts(self):
-        """A pandas.DataFrame of forecasts"""
         keys = zip(self.league_ids, [l + '_forecast' for l in self.league_ids])
 
         df_list = []
         for lkey, fkey in keys:
             forecast_by_date = self._data[fkey]['forecasts']
-            df_1_league = pd.concat([
+            df_list += [
                 (pd.DataFrame.from_dict(f['teams'])
                  .assign(league=lkey)
                  .assign(
                     last_updated=lambda x: pd.to_datetime(f['last_updated']))
-                 ) for f in forecast_by_date])
-            df_list.append(df_1_league)
+                 ) for f in forecast_by_date]
 
         df = pd.concat(df_list)
         df = df.set_index(['league', 'last_updated', 'name'])
         return df.sort_index()
 
     def clinches(self):
-        """A pandas.DataFrame of clinches"""
         keys = zip(self.league_ids, [l + '_clinches' for l in self.league_ids])
 
         df = pd.concat([
