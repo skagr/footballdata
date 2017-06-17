@@ -38,19 +38,16 @@ class FiveThirtyEight(object):
             for k, v in json.load(data_file).items():
                 self._data[k] = v
 
-    @property
     def leagues(self):
         """A pandas.DataFrame of leagues"""
         df = (pd.DataFrame.from_dict(self._data['leagues'])
-              .drop('id', axis=1)
-              .rename(columns={'slug': 'id'})
+              .rename(columns={'slug': 'league', 'id': 'league_id'})
               )
 
-        df.set_index('id', inplace=True)
+        df.set_index('league', inplace=True)
         df = df.loc[self._league_ids]
         return df.sort_index()
 
-    @property
     def games(self):
         """A pandas.DataFrame of games"""
         keys = zip(self.league_ids, [l + '_matches' for l in self.league_ids])
@@ -64,24 +61,25 @@ class FiveThirtyEight(object):
 
         return df.sort_index()
 
-    @property
     def forecasts(self):
         """A pandas.DataFrame of forecasts"""
         keys = zip(self.league_ids, [l + '_forecast' for l in self.league_ids])
 
+        df_list = []
         for lkey, fkey in keys:
             forecast_by_date = self._data[fkey]['forecasts']
-            df = pd.concat([
+            df_1_league = pd.concat([
                 (pd.DataFrame.from_dict(f['teams'])
                  .assign(league=lkey)
                  .assign(
                     last_updated=lambda x: pd.to_datetime(f['last_updated']))
-                    .set_index(['last_updated', 'league', 'name'])
                  ) for f in forecast_by_date])
+            df_list.append(df_1_league)
 
+        df = pd.concat(df_list)
+        df = df.set_index(['league', 'last_updated', 'name'])
         return df.sort_index()
 
-    @property
     def clinches(self):
         """A pandas.DataFrame of clinches"""
         keys = zip(self.league_ids, [l + '_clinches' for l in self.league_ids])

@@ -5,7 +5,7 @@ Football Data Analysis Toolkit
     :target: https://pypi.python.org/pypi/footballdata
     :alt: Latest PyPI version
 
-Version: 0.1.0 Pre-Alpha
+Status: Pre-Alpha
 
 A collection of wrappers over football [*]_ data from various websites / APIs. Data is downloaded when needed, cleaned up and presented as (mostly) Pandas dataframes. Example Jupyter Notebooks are in the Github repo.
 
@@ -43,8 +43,8 @@ Usage
 
     # Create dataframes
     matches = five38.matches()
-    current_elo = elo.elo()
-    club_elo_history = elo.club_hist('Barcelona')
+    current_elo = elo.by_date()
+    club_elo_history = elo.club_history('Barcelona')
 
 Compatibility
 -------------
