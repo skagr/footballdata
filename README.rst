@@ -43,8 +43,11 @@ Usage
 
     # Create dataframes
     matches = five38.matches()
+    forecasts = five38.forecasts()
     current_elo = elo.by_date()
     club_elo_history = elo.club_history('Barcelona')
+
+    See the Jupyter Notebooks here for more elaborate examples: https://github.com/skagr/footballdata/tree/master/notebooks
 
 Compatibility
 -------------
