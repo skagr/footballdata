@@ -1,0 +1,41 @@
+import setuptools
+
+setuptools.setup(
+    name="footballdata",
+    version="0.1.2",
+    url="https://github.com/skagr/footballdata",
+    license='MIT',
+
+    author="Skag Rijsdijk",
+    author_email="skag.rijsdijk@gmail.com",
+
+    description="""A collection of wrappers over football (soccer) 
+    data from various websites / APIs. Data is downloaded when needed, 
+    cleaned up and presented as (mostly) Pandas dataframes. 
+    Example Jupyter Notebooks are in the Github repo.""",
+
+    long_description=open('README.rst').read(),
+
+    packages=['footballdata'],
+
+    install_requires=[
+        'pandas',
+        'requests'
+    ],
+
+    extras_require={
+        'test': ['pytest'],
+    },
+
+    classifiers=[
+        'Development Status :: 2 - Pre-Alpha',
+        'License :: OSI Approved :: MIT License',
+        'Topic :: Software Development :: Libraries',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+    ],
+
+    keywords=['football', 'soccer', 'metrics', 'sports', 'statistics'],
+)
