@@ -5,17 +5,38 @@ Football Data Analysis Toolkit
     :target: https://pypi.python.org/pypi/footballdata
     :alt: Latest PyPI version
 
+A collection of wrappers over football [*]_ data from various websites / APIs. You get: Pandas dataframes with sensible, matching column names across datasets. Data is downloaded when needed and cached locally. Example Jupyter Notebooks are in the Github repo.
+
 Status: Pre-Alpha
 
-A collection of wrappers over football [*]_ data from various websites / APIs. Data is downloaded when needed, cleaned up and presented as (mostly) Pandas dataframes. Example Jupyter Notebooks are in the Github repo.
+.. [*] Soccer, if you're a heathen
 
 Data sources:
+-------------
 
-- http://www.football-data.co.uk/
-- http://clubelo.com
-- https://projects.fivethirtyeight.com/soccer-predictions
+fivethirtyeight.com
+~~~~~~~~~~~~~~~~~~~
+(https://projects.fivethirtyeight.com/soccer-predictions)
 
-.. [*] Soccer, if you're a heathen 
+Season 2016-17 predictions and results for the top European and American leagues.
+
+football-data.co.uk
+~~~~~~~~~~~~~~~~~~~
+(http://www.football-data.co.uk/)
+
+Historical results, betting odds and match statistics for English, Scottish, German, Italian, Spanish, French, Dutch, Belgian, Portuguese, Turkish and Greek leagues, including a number of lower divisions. Level of detail depends on league.
+
+clubelo.com
+~~~~~~~~~~~
+(http://clubelo.com)
+
+First team relative strengths, for all (?) European leagues. Recalculated after every round, includes history.
+
+Roadmap:
+--------
+
+Add player stats, transfers, injuries and suspensions.
+
 
 Installation
 ------------
