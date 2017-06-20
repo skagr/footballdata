@@ -33,6 +33,26 @@ def test_five38_clinches(five38):
     assert isinstance(five38.clinches(), pd.DataFrame)
 
 
+def test_five38_league_ids_ll(five38_laliga):
+    assert isinstance(five38_laliga.league_ids, list)
+
+
+def test_five38_leagues_ll(five38_laliga):
+    assert isinstance(five38_laliga.leagues(), pd.DataFrame)
+
+
+def test_five38_games_ll(five38_laliga):
+    assert isinstance(five38_laliga.games(), pd.DataFrame)
+
+
+def test_five38_forecasts_ll(five38_laliga):
+    assert isinstance(five38_laliga.forecasts(), pd.DataFrame)
+
+
+def test_five38_clinches_ll(five38_laliga):
+    assert isinstance(five38_laliga.clinches(), pd.DataFrame)
+
+
 def test_five38_laliga(five38_laliga):
     df = five38_laliga.leagues()
     assert len(df) == 1

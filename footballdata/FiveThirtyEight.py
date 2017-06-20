@@ -1,10 +1,15 @@
 import json
 import numpy as np
 import pandas as pd
-from pathlib import Path
 import pprint
-
 from footballdata.common import datadir, download_and_save
+
+
+import sys
+if sys.version_info >= (3, 4):
+    from pathlib import Path
+else:
+    from pathlib2 import Path
 
 
 class FiveThirtyEight(object):
@@ -91,7 +96,7 @@ class FiveThirtyEight(object):
                 .assign(league=lambda x: x['league'].astype('category'))
                 .assign(name=lambda x: x['name'].astype('category'))
                 .assign(code=lambda x: x['code'].astype('category'))
-                .assign(conference=lambda x: x['conference'].astype('category'))
+                # .assign(conference=lambda x: x['conference'].astype('category'))
                 .assign(group=lambda x: x['group'].astype('category'))
                 .set_index(['league', 'last_updated', 'name'])
               )

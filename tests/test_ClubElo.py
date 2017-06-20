@@ -1,3 +1,4 @@
+from __future__ import division
 """
 Unittests for class footballdata.ClubElo
 """
@@ -20,12 +21,12 @@ def test_by_date(clubElo):
 
 
 def test_club_hist(clubElo):
-    assert isinstance(clubElo.club_history('Feyenoord'),
+    assert isinstance(clubElo.team_history('Feyenoord'),
                       pd.DataFrame)
-    assert isinstance(clubElo.club_history('Feyenoord', 2),
+    assert isinstance(clubElo.team_history('Feyenoord', 2),
                       pd.DataFrame)
     max_age = timedelta(seconds=1)
-    assert isinstance(clubElo.club_history('Feyenoord', max_age),
+    assert isinstance(clubElo.team_history('Feyenoord', max_age),
                       pd.DataFrame)
 
 
@@ -40,8 +41,8 @@ def test_by_date_bad_params(clubElo):
 
 def test_club_hist_bad_params(clubElo):
     with pytest.raises(TypeError):
-        clubElo.club_history()
+        clubElo.team_history()
     with pytest.raises(ValueError):
-        clubElo.club_history('FC Knudde')
+        clubElo.team_history('FC Knudde')
     with pytest.raises(TypeError):
-        clubElo.club_history('Feyenoord', datetime.now())
+        clubElo.team_history('Feyenoord', datetime.now())

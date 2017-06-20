@@ -1,11 +1,16 @@
 from datetime import datetime, timedelta
 import pandas as pd
-from pathlib import Path
 
 from footballdata.common import (
     datadir,
     download_and_save,
     TEAMNAME_REPLACEMENTS)
+
+import sys
+if sys.version_info >= (3, 4):
+    from pathlib import Path
+else:
+    from pathlib2 import Path
 
 
 class ClubElo(object):
@@ -15,8 +20,8 @@ class ClubElo(object):
 
     """
 
-    def __init__(self):
-        pass
+    # This class holds no state. We use a class anyway to maintain consistency
+    # with the rest of the package
 
     def by_date(self, date=None):
         """Returns ELO scores for all teams at specified date in
@@ -43,22 +48,22 @@ class ClubElo(object):
         if not filepath.exists():
             download_and_save(url, filepath)
 
-        df = (pd.read_csv(filepath,
+        df = (pd.read_csv(str(filepath),
                           parse_dates=['From', 'To'],
                           infer_datetime_format=True,
                           dayfirst=False
                           )
-              .rename(columns={'Club': 'team'})
+              .rename(columns={'Club': 'Team'})
               )
 
         df.replace(
-            {'team': TEAMNAME_REPLACEMENTS},
+            {'Team': TEAMNAME_REPLACEMENTS},
             inplace=True
         )
-        df = df.reset_index().set_index('team')
+        df = df.reset_index().set_index('Team')
         return df
 
-    def club_history(self, club, max_age=1):
+    def team_history(self, team, max_age=1):
         """Downloads full ELO history for one team
 
         Returns pandas.DataFrame
@@ -70,8 +75,8 @@ class ClubElo(object):
                 integer for age in days, or timedelta object
         """
 
-        filepath = Path(datadir(), 'clubelo_{}.csv'.format(club))
-        url = 'http://api.clubelo.com/{}'.format(club)
+        filepath = Path(datadir(), 'clubelo_{}.csv'.format(team))
+        url = 'http://api.clubelo.com/{}'.format(team)
 
         if isinstance(max_age, int):
             _max_age = timedelta(days=max_age)
@@ -88,10 +93,11 @@ class ClubElo(object):
             if (now - last_modified) > _max_age:
                 download_and_save(url, filepath)
 
-        df = (pd.read_csv(filepath,
+        df = (pd.read_csv(str(filepath),
                           parse_dates=['From', 'To'],
                           infer_datetime_format=True,
                           dayfirst=False)
+              .rename(columns={'Club': 'Team'})
               .set_index('From')
               .sort_index()
               )
@@ -99,4 +105,4 @@ class ClubElo(object):
             return df
         else:
             # clubelo.com returns a CSV with just a header for nonexistent club
-            raise ValueError('No data found for club {}'.format(club))
+            raise ValueError('No data found for club {}'.format(team))

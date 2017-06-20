@@ -1,5 +1,11 @@
-from pathlib import Path
 import requests
+import sys
+
+
+if sys.version_info >= (3, 4):
+    from pathlib import Path
+else:
+    from pathlib2 import Path
 
 
 TEAMNAME_REPLACEMENTS = {

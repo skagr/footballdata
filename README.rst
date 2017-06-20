@@ -5,7 +5,7 @@ Football Data Analysis Toolkit
     :target: https://pypi.python.org/pypi/footballdata
     :alt: Latest PyPI version
 
-A collection of wrappers over football [*]_ data from various websites / APIs. You get: Pandas dataframes with sensible, matching column names across datasets. Data is downloaded when needed and cached locally. Example Jupyter Notebooks are in the Github repo.
+A collection of wrappers over football [*]_ data from various websites / APIs. You get: Pandas dataframes with sensible, matching column names and identifiers across datasets. Data is downloaded when needed and cached locally. Example Jupyter Notebooks are in the Github repo.
 
 Status: Pre-Alpha
 
@@ -48,6 +48,7 @@ Installation
 Dependencies
 ~~~~~~~~~~~~
 
+- Numpy
 - `Pandas <http://pandas.pydata.org/>`_
 - `Requests <http://docs.python-requests.org/en/master/>`_
 
@@ -66,14 +67,14 @@ Usage
     matches = five38.matches()
     forecasts = five38.forecasts()
     current_elo = elo.by_date()
-    club_elo_history = elo.club_history('Barcelona')
+    team_elo_history = elo.team_history('Barcelona')
 
 See the Jupyter Notebooks here for more elaborate examples: https://github.com/skagr/footballdata/tree/master/notebooks
 
 Compatibility
 -------------
 
-Tested against Python 3.5 and 3.6
+Tested against Python 2.7, 3.5 and 3.6
 
 Licence
 -------
