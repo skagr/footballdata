@@ -19,6 +19,7 @@ setuptools.setup(
     packages=['footballdata'],
 
     install_requires=[
+        'numpy',
         'pandas',
         'requests'
     ],

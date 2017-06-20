@@ -1,4 +1,5 @@
 import json
+import numpy as np
 import pandas as pd
 from pathlib import Path
 import pprint
@@ -49,12 +50,26 @@ class FiveThirtyEight(object):
     def games(self):
         keys = zip(self.league_ids, [l + '_matches' for l in self.league_ids])
 
-        df = pd.concat([
+        df = (pd.concat([
             (pd.DataFrame.from_dict(self._data[mkey])
              .assign(league=lkey)
-             .assign(datetime=lambda x: pd.to_datetime(x['datetime']))
-             .set_index(['league', 'datetime', 'id'])
              ) for lkey, mkey in keys])
+            .replace('None', np.nan)
+            .assign(league=lambda x: x['league'].astype('category'))
+            .assign(id=lambda x: x['id'].astype('category'))
+            .assign(leg=lambda x: x['leg'].astype('category'))
+            .assign(round=lambda x: x['round'].astype('category'))
+            .assign(status=lambda x: x['status'].astype('category'))
+            .assign(team1=lambda x: x['team1'].astype('category'))
+            .assign(team1_code=lambda x: x['team1_code'].astype('category'))
+            .assign(team1_id=lambda x: x['team1_id'].astype('category'))
+            .assign(team1_sdr_id=lambda x: x['team1_sdr_id'].astype('category'))
+            .assign(team2=lambda x: x['team2'].astype('category'))
+            .assign(team2_code=lambda x: x['team2_code'].astype('category'))
+            .assign(team2_id=lambda x: x['team2_id'].astype('category'))
+            .assign(team2_sdr_id=lambda x: x['team2_sdr_id'].astype('category'))
+            .assign(datetime=lambda x: pd.to_datetime(x['datetime']))
+            .set_index(['league', 'datetime', 'id']))
 
         return df.sort_index()
 
@@ -71,24 +86,31 @@ class FiveThirtyEight(object):
                     last_updated=lambda x: pd.to_datetime(f['last_updated']))
                  ) for f in forecast_by_date]
 
-        df = pd.concat(df_list)
-        df = df.set_index(['league', 'last_updated', 'name'])
+        df = (pd.concat(df_list)
+                .replace('None', np.nan)
+                .assign(league=lambda x: x['league'].astype('category'))
+                .assign(name=lambda x: x['name'].astype('category'))
+                .assign(code=lambda x: x['code'].astype('category'))
+                .assign(conference=lambda x: x['conference'].astype('category'))
+                .assign(group=lambda x: x['group'].astype('category'))
+                .set_index(['league', 'last_updated', 'name'])
+              )
         return df.sort_index()
 
     def clinches(self):
         keys = zip(self.league_ids, [l + '_clinches' for l in self.league_ids])
 
-        df = pd.concat([
-            (pd.DataFrame.from_dict(self._data[ckey])
-             .assign(league=lkey)
-             # This breaks pandas during pytest:
-             # .assign(date=lambda x: pd.to_datetime(x['dt']))
-             ) for lkey, ckey in keys])
+        df = (pd.concat([(pd.DataFrame.from_dict(self._data[ckey])
+                          .assign(league=lkey)
+                          ) for lkey, ckey in keys]
+                        )
+                .assign(date=lambda x: pd.to_datetime(x['dt']))
+                .drop('dt', axis=1)
+                .set_index(['league', 'date'])
+                .sort_index()
+              )
 
-        df['date'] = pd.to_datetime(df['dt'])
-        df.drop('dt', axis=1, inplace=True)
-        df.set_index(['league', 'date'], inplace=True)
-        return df.sort_index()
+        return df
 
     @property
     def league_ids(self):

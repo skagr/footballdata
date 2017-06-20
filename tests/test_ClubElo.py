@@ -7,7 +7,7 @@ Unittests for class footballdata.ClubElo
 from datetime import datetime, timedelta
 import pandas as pd
 
-from . fixtures import *  # noqa
+from . testfixtures import *  # noqa
 
 
 # Unittests -------------------------------------------------------------------

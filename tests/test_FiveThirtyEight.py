@@ -3,10 +3,10 @@ Unittests for class footballdata.FiveThirtyEight
 """
 
 import pytest
-import footballdata as fbd
+# import footballdata as foo
 import pandas as pd
 
-from . fixtures import *  # noqa
+from . testfixtures import *  # noqa
 
 
 # Unittests -------------------------------------------------------------------
@@ -49,7 +49,19 @@ def test_league_counts(five38):
                                          .unique())
 
 
+def test_league_matches_games(five38):
+    assert all(
+        five38.games().reset_index().league.unique() ==
+        five38.leagues().reset_index().league.unique())
+
+
+def test_league_matches_forecasts(five38):
+    assert all(
+        five38.forecasts().reset_index().league.unique() ==
+        five38.leagues().reset_index().league.unique())
+
 # Bad inits
+
 
 def test_five38_league_value_error():
     with pytest.raises(ValueError):

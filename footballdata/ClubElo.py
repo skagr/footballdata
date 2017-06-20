@@ -43,17 +43,19 @@ class ClubElo(object):
         if not filepath.exists():
             download_and_save(url, filepath)
 
-        df = pd.read_csv(filepath,
-                         parse_dates=['From', 'To'],
-                         infer_datetime_format=True,
-                         dayfirst=False
-                         )
+        df = (pd.read_csv(filepath,
+                          parse_dates=['From', 'To'],
+                          infer_datetime_format=True,
+                          dayfirst=False
+                          )
+              .rename(columns={'Club': 'team'})
+              )
 
         df.replace(
-            {'Club': TEAMNAME_REPLACEMENTS},
+            {'team': TEAMNAME_REPLACEMENTS},
             inplace=True
         )
-        df = df.reset_index().set_index('Club')
+        df = df.reset_index().set_index('team')
         return df
 
     def club_history(self, club, max_age=1):
