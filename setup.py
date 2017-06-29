@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name='footballdata',
-    version='0.1.2',
+    version='0.1.3',
     url='https://github.com/skagr/footballdata',
     license='MIT',
 
