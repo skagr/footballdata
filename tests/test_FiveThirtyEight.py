@@ -3,10 +3,10 @@ Unittests for class footballdata.FiveThirtyEight
 """
 
 import pytest
-# import footballdata as foo
+import footballdata as foo
 import pandas as pd
 
-from . testfixtures import *  # noqa
+from .testfixtures import *  # noqa
 
 
 # Unittests -------------------------------------------------------------------
@@ -14,80 +14,83 @@ from . testfixtures import *  # noqa
 
 
 def test_five38_league_ids(five38):
-    assert isinstance(five38.league_ids, list)
+    assert isinstance(five38._selected_leagues, dict)
 
 
 def test_five38_leagues(five38):
-    assert isinstance(five38.leagues(), pd.DataFrame)
+    assert isinstance(five38.read_leagues(), pd.DataFrame)
 
 
 def test_five38_games(five38):
-    assert isinstance(five38.games(), pd.DataFrame)
+    assert isinstance(five38.read_games(), pd.DataFrame)
 
 
 def test_five38_forecasts(five38):
-    assert isinstance(five38.forecasts(), pd.DataFrame)
+    assert isinstance(five38.read_forecasts(), pd.DataFrame)
 
 
 def test_five38_clinches(five38):
-    assert isinstance(five38.clinches(), pd.DataFrame)
+    assert isinstance(five38.read_clinches(), pd.DataFrame)
 
 
 def test_five38_league_ids_ll(five38_laliga):
-    assert isinstance(five38_laliga.league_ids, list)
+    assert isinstance(five38_laliga._selected_leagues, dict)
 
 
 def test_five38_leagues_ll(five38_laliga):
-    assert isinstance(five38_laliga.leagues(), pd.DataFrame)
+    assert isinstance(five38_laliga.read_leagues(), pd.DataFrame)
 
 
 def test_five38_games_ll(five38_laliga):
-    assert isinstance(five38_laliga.games(), pd.DataFrame)
+    assert isinstance(five38_laliga.read_games(), pd.DataFrame)
 
 
 def test_five38_forecasts_ll(five38_laliga):
-    assert isinstance(five38_laliga.forecasts(), pd.DataFrame)
+    assert isinstance(five38_laliga.read_forecasts(), pd.DataFrame)
 
 
 def test_five38_clinches_ll(five38_laliga):
-    assert isinstance(five38_laliga.clinches(), pd.DataFrame)
+    assert isinstance(five38_laliga.read_clinches(), pd.DataFrame)
 
 
 def test_five38_laliga(five38_laliga):
-    df = five38_laliga.leagues()
+    df = five38_laliga.read_leagues()
     assert len(df) == 1
-    assert df.loc['la-liga', 'longName'] == 'La Liga'
+    assert df.loc['ESP-La Liga', 'longName'] == 'La Liga'
 
 
 def test_league_counts(five38):
-    assert len(five38.league_ids) == len(five38.leagues())
-    assert len(five38.league_ids) == len(five38.games()
-                                         .reset_index()['league']
-                                         .unique())
-    assert len(five38.league_ids) == len(five38.forecasts()
-                                         .reset_index()['league']
-                                         .unique())
+    assert len(five38._selected_leagues) == len(five38.read_leagues())
+    assert len(five38._selected_leagues) == len(five38.read_games()
+                                                .reset_index()['league']
+                                                .unique())
+    assert len(five38._selected_leagues) == len(five38.read_forecasts()
+                                                .reset_index()['league']
+                                                .unique())
 
 
 def test_league_matches_games(five38):
-    assert all(
-        five38.games().reset_index().league.unique() ==
-        five38.leagues().reset_index().league.unique())
+    assert (
+        set(five38.read_games().reset_index().league) ==
+        set(five38.read_leagues().reset_index().league)
+    )
 
 
 def test_league_matches_forecasts(five38):
-    assert all(
-        five38.forecasts().reset_index().league.unique() ==
-        five38.leagues().reset_index().league.unique())
+    assert (
+        set(five38.read_forecasts().reset_index().league) ==
+        set(five38.read_leagues().reset_index().league)
+    )
+
 
 # Bad inits
 
 
 def test_five38_league_value_error():
     with pytest.raises(ValueError):
-        fbd.FiveThirtyEight('xxx')
+        foo.FiveThirtyEight('xxx')
 
 
 def test_five38_league_type_error():
     with pytest.raises(TypeError):
-        fbd.FiveThirtyEight(1)
+        foo.FiveThirtyEight(1)

@@ -43,7 +43,7 @@ Installation
 
 .. code:: bash
 
-	$ pip install footballdata
+    $ pip install footballdata
 
 Dependencies
 ~~~~~~~~~~~~
@@ -62,12 +62,14 @@ Usage
     # Create class instances
     five38 = foo.FiveThirtyEight()
     elo = foo.ClubElo()
+    mhist = foo.MatchHistory('ESP-Premier League', '2016-17')
 
     # Create dataframes
-    matches = five38.matches()
+    matches = five38.read_games()
     forecasts = five38.forecasts()
-    current_elo = elo.by_date()
-    team_elo_history = elo.team_history('Barcelona')
+    current_elo = elo.read_by_date()
+    team_elo_history = elo.read_team_history('Barcelona')
+    epl_2016 = mhist.read_games()
 
 See the Jupyter Notebooks here for more elaborate examples: https://github.com/skagr/footballdata/tree/master/notebooks
 
