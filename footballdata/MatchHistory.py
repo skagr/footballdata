@@ -61,7 +61,9 @@ class MatchHistory(_BaseReader):
             .replace({'HomeTeam': TEAMNAME_REPLACEMENTS,
                       'AwayTeam': TEAMNAME_REPLACEMENTS})
             .dropna(subset=['HomeTeam', 'AwayTeam'])
-            .assign(game_id=lambda x: x['HomeTeam'] + '-' + x['AwayTeam'] + ' ' + x['date'].dt.strftime("%Y-%m-%d"))
+            .assign(game_id=lambda x: x['date'].dt.strftime("%Y-%m-%d") +
+                                      ' ' + x['HomeTeam'] +
+                                      '-' + x['AwayTeam'] )
             .reset_index()
             .set_index(['league', 'season', 'game_id'])
             .sort_index()
