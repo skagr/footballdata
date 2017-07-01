@@ -6,6 +6,7 @@ import warnings
 from .common import (_BaseReader, Path, datadir, TEAMNAME_REPLACEMENTS)
 
 
+
 class MatchHistory(_BaseReader):
     """Provides pandas.DataFrames from CSV files available at
     http://www.football-data.co.uk/data.php
@@ -32,6 +33,12 @@ class MatchHistory(_BaseReader):
 
         urlmask = 'http://www.football-data.co.uk/mmz4281/{}/{}.csv'
         filemask = 'MatchHistory_{}_{}.csv'
+        col_rename = {
+            'Div': 'league',
+            'Date': 'date',
+            'HomeTeam': 'home_team',
+            'AwayTeam': 'away_team',
+        }
 
         df_list = []
         current_season_ends = str(date.today().year)[-2:]
@@ -57,14 +64,14 @@ class MatchHistory(_BaseReader):
 
         df = (
             pd.concat(df_list)
-            .rename(columns={'Div': 'league', 'Date': 'date'})
+            .rename(columns=col_rename)
             .pipe(self._translate_league)
-            .replace({'HomeTeam': TEAMNAME_REPLACEMENTS,
-                      'AwayTeam': TEAMNAME_REPLACEMENTS})
-            .dropna(subset=['HomeTeam', 'AwayTeam'])
+            .replace({'home_team': TEAMNAME_REPLACEMENTS,
+                      'away_team': TEAMNAME_REPLACEMENTS})
+            .dropna(subset=['home_team', 'away_team'])
             .assign(game_id=lambda x: x['date'].dt.strftime("%Y-%m-%d") +
-                                      ' ' + x['HomeTeam'] +
-                                      '-' + x['AwayTeam'] )
+                                      ' ' + x['home_team'] +
+                                      '-' + x['away_team'] )
             .reset_index()
             .set_index(['league', 'season', 'game_id'])
             .sort_index()

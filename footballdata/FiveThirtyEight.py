@@ -3,7 +3,7 @@ import json
 import numpy as np
 import pandas as pd
 
-from .common import (_BaseReader, Path, datadir)
+from .common import (_BaseReader, Path, datadir, TEAMNAME_REPLACEMENTS)
 
 #TODO teamname replacements
 
@@ -52,6 +52,30 @@ class FiveThirtyEight(_BaseReader):
 
     def read_games(self):
         """Returns a Dataframe of all games for the selected leagues"""
+
+        col_rename = {
+            'adj_score1': 'adj_score_home',
+            'adj_score2': 'adj_score_away',
+            'chances1': 'chances_home',
+            'chances2': 'chances_away',
+            'datetime': 'date',
+            'moves1': 'moves_home',
+            'moves2': 'moves_away',
+            'prob1': 'prob_home',
+            'prob2': 'prob_away',
+            'probtie': 'prob_tie',
+            'score1': 'score_home',
+            'score2': 'score_away',
+            'team1': 'home_team',
+            'team1_code': 'home_code',
+            'team1_id': 'home_id',
+            'team1_sdr_id': 'home_sdr_id',
+            'team2': 'away_team',
+            'team2_code': 'away_code',
+            'team2_id': 'away_id',
+            'team2_sdr_id': 'away_sdr_id'
+        }
+
         keys = [(v, v + '_matches') for v in self._selected_leagues.values()]
 
         df = (
@@ -60,12 +84,22 @@ class FiveThirtyEight(_BaseReader):
                   .assign(league=lkey)
                 ) for lkey, mkey in keys]
             )
+                .rename(columns=col_rename)
+                .assign(date=lambda x: pd.to_datetime(x['date']))
+                .replace({'home_team': TEAMNAME_REPLACEMENTS,
+                          'away_team': TEAMNAME_REPLACEMENTS})
+                .assign(game_id=lambda x: x['date'].dt.strftime("%Y-%m-%d") +
+                                          ' ' + x['home_team'] +
+                                          '-' + x['away_team'])
+                .drop('id', axis=1)
+                .assign(season='1617')
                 .replace('None', np.nan)
-                .assign(datetime=lambda x: pd.to_datetime(x['datetime']))
                 .pipe(self._translate_league)
-                .set_index(['league', 'datetime', 'id'])
+                .set_index(['league', 'season', 'game_id'])
                 .sort_index()
         )
+        keys = [(v, v + '_matches') for v in self._selected_leagues.values()]
+
         return df
 
     def read_forecasts(self):

@@ -41,14 +41,14 @@ class ClubElo(_BaseReader):
                           infer_datetime_format=True,
                           dayfirst=False
                           )
-              .rename(columns={'Club': 'Team'})
+              .rename(columns={'Club': 'team'})
               )
 
         df.replace(
-            {'Team': TEAMNAME_REPLACEMENTS},
+            {'team': TEAMNAME_REPLACEMENTS},
             inplace=True
         )
-        df = df.reset_index().set_index('Team')
+        df = df.reset_index().set_index('team')
         return df
 
     def read_team_history(self, team, max_age=1):
@@ -89,16 +89,16 @@ class ClubElo(_BaseReader):
                               parse_dates=['From', 'To'],
                               infer_datetime_format=True,
                               dayfirst=False)
-                  .rename(columns={'Club': 'Team'})
+                  .rename(columns={'Club': 'team'})
                   .set_index('From')
                   .sort_index()
                   )
             if len(df) > 0:
                 df.replace(
-                    {'Team': TEAMNAME_REPLACEMENTS},
+                    {'team': TEAMNAME_REPLACEMENTS},
                     inplace=True
                 )
                 return df
 
         # clubelo.com returns a CSV with just a header for nonexistent club
-        raise ValueError('No data found for club {}'.format(team))
+        raise ValueError('No data found for team {}'.format(team))
