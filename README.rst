@@ -62,7 +62,7 @@ Usage
     # Create class instances
     five38 = foo.FiveThirtyEight()
     elo = foo.ClubElo()
-    mhist = foo.MatchHistory('ESP-Premier League', '2016-17')
+    mhist = foo.MatchHistory('ENG-Premier League', '2016-17')
 
     # Create dataframes
     matches = five38.read_games()
