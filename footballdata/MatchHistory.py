@@ -51,7 +51,7 @@ class MatchHistory(_BaseReader):
                 self._download_and_save(url, filepath)
 
             df_list.append(
-                pd.read_csv(filepath,
+                pd.read_csv(str(filepath),
                             parse_dates=['Date'],
                             infer_datetime_format=True,
                             dayfirst=True,
@@ -128,7 +128,7 @@ class MatchHistory(_BaseReader):
             with filepath.open(mode='r', encoding='ISO-8859-1') as file:
                 for line in file.readlines():
                     tmpfile.write(line.rstrip(',\n'))
-                    tmpfile.write('\n')
+                    tmpfile.write(u'\n')
         filepath_tmp.rename(filepath)
 
     @property
