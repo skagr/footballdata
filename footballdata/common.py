@@ -21,101 +21,101 @@ TEAMNAME_REPLACEMENTS = {
 }
 
 LEAGUE_DICT = {
+    'Champions League': {
+        'FiveThirtyEight': 'champions-league',
+    },
     'ENG-Premier League': {
         'MatchHistory': 'E0',  # Code used on football-data.co.uk
-        'fbd_from_season': '9394',  # Availability on football-data.co.uk
+        'MH_from_season': '9394',  # Availability on football-data.co.uk
         'FiveThirtyEight': 'premier-league',  # Slug used on fivethirtyeight.com
     },
     'ENG-Championship': {
         'MatchHistory': 'E1',
-        'fbd_from_season': '9394'
+        'MH_from_season': '9394'
     },  # Division 1 before 2004
     'ENG-League 1': {
         'MatchHistory': 'E2',
-        'fbd_from_season': '9394'
+        'MH_from_season': '9394'
     },  # Division 2 before 2004
     'ENG-League 2': {
         'MatchHistory': 'E3',
-        'fbd_from_season': '9394'
+        'MH_from_season': '9394'
     },  # Division 3 before 2004
     'ENG-Conference': {
         'MatchHistory': 'EC',
-        'fbd_from_season': '0506'
+        'MH_from_season': '0506'
     },  # Not available before 2005
     'SCO-Premier League': {
-        'MatchHistory': 'E0',
-        'fbd_from_season': '9495'
+        'MatchHistory': 'SC0',
+        'MH_from_season': '9495'
     },
     'SCO-Division 1': {
-        'MatchHistory': 'E1',
-        'fbd_from_season': '9495'
+        'MatchHistory': 'SC1',
+        'MH_from_season': '9495'
     },  # Division 1 before 2004
     'SCO-Division 2': {
-        'MatchHistory': 'E2',
-        'fbd_from_season': '9798'
+        'MatchHistory': 'SC2',
+        'MH_from_season': '9798'
     },  # Division 2 before 2004
     'SCO-Division 3': {
-        'MatchHistory': 'E3',
-        'fbd_from_season': '9798'
+        'MatchHistory': 'SC3',
+        'MH_from_season': '9798'
     },  # Division 3 before 2004
     'GER-Bundesliga': {
         'MatchHistory': 'D1',
-        'fbd_from_season': '9394',
+        'MH_from_season': '9394',
         'FiveThirtyEight': 'bundesliga',
     },
     'GER-Bundesliga 2': {
         'MatchHistory': 'D2',
-        'fbd_from_season': '9394'
+        'MH_from_season': '9394'
     },
     'ESP-La Liga': {
         'MatchHistory': 'SP1',
-        'fbd_from_season': '9394',
+        'MH_from_season': '9394',
         'FiveThirtyEight': 'la-liga',
     },
     'ESP-La Liga 2': {
         'MatchHistory': 'SP2',
-        'fbd_from_season': '9697'
+        'MH_from_season': '9697'
     },
     'ITA-Serie A': {
         'MatchHistory': 'I1',
-        'fbd_from_season': '9394',
+        'MH_from_season': '9394',
         'FiveThirtyEight': 'serie-a',
     },
     'ITA-Serie B': {
         'MatchHistory': 'I2',
-        'fbd_from_season': '9798',
+        'MH_from_season': '9798',
     },
     'FRA-Ligue 1': {
         'MatchHistory': 'F1',
-        'fbd_from_season': '9394',
+        'MH_from_season': '9394',
         'FiveThirtyEight': 'ligue-1',
     },
     'FRA-Ligue 2': {
         'MatchHistory': 'F2',
-        'fbd_from_season': '9697',
+        'MH_from_season': '9697',
     },
     'NED-Eredivisie': {
         'MatchHistory': 'N1',
-        'fbd_from_season': '9394',
+        'MH_from_season': '9394',
     },
     'BEL-Jupiler League': {
         'MatchHistory': 'B1',
-        'fbd_from_season': '9596',
+        'MH_from_season': '9596',
     },
     'POR-Liga 1': {
         'MatchHistory': 'P1',
-        'fbd_from_season': '9495',
+        'MH_from_season': '9495',
     },
     'TUR-Ligi 1': {
         'MatchHistory': 'T1',
-        'fbd_from_season': '9495',
+        'MH_from_season': '9495',
     },
     'GRE-Ethniki Katigoria': {
         'MatchHistory': 'G1',
-        'fbd_from_season': '9495',
-    },
-    'Champions League': {
-        'FiveThirtyEight': 'champions-league',
+        'MH_from_season': '9495',
     },
     'USA-MLS': {
         'FiveThirtyEight': 'mls',
