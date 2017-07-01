@@ -1,4 +1,4 @@
-import pandas as pd
+import numpy as np
 import pprint
 import requests
 import sys
@@ -21,15 +21,14 @@ TEAMNAME_REPLACEMENTS = {
 }
 
 LEAGUE_DICT = {
-    'Champions League': {
-        'FiveThirtyEight': 'champions-league',
-    },
     'ENG-Premier League': {
+        'ClubElo': 'ENG_1',  # Used to id on clubelo.co)m
         'MatchHistory': 'E0',  # Code used on football-data.co.uk
         'MH_from_season': '9394',  # Availability on football-data.co.uk
         'FiveThirtyEight': 'premier-league',  # Slug used on fivethirtyeight.com
     },
     'ENG-Championship': {
+        'ClubElo': 'ENG_2',
         'MatchHistory': 'E1',
         'MH_from_season': '9394'
     },  # Division 1 before 2004
@@ -46,6 +45,7 @@ LEAGUE_DICT = {
         'MH_from_season': '0506'
     },  # Not available before 2005
     'SCO-Premier League': {
+        'ClubElo': 'SCO_1',
         'MatchHistory': 'SC0',
         'MH_from_season': '9495'
     },
@@ -62,58 +62,71 @@ LEAGUE_DICT = {
         'MH_from_season': '9798'
     },  # Division 3 before 2004
     'GER-Bundesliga': {
+        'ClubElo': 'GER_1',
         'MatchHistory': 'D1',
         'MH_from_season': '9394',
         'FiveThirtyEight': 'bundesliga',
     },
     'GER-Bundesliga 2': {
+        'ClubElo': 'GER_2',
         'MatchHistory': 'D2',
         'MH_from_season': '9394'
     },
     'ESP-La Liga': {
+        'ClubElo': 'ESP_1',
         'MatchHistory': 'SP1',
         'MH_from_season': '9394',
         'FiveThirtyEight': 'la-liga',
     },
     'ESP-La Liga 2': {
+        'ClubElo': 'ESP_2',
         'MatchHistory': 'SP2',
         'MH_from_season': '9697'
     },
     'ITA-Serie A': {
+        'ClubElo': 'ITA_1',
         'MatchHistory': 'I1',
         'MH_from_season': '9394',
         'FiveThirtyEight': 'serie-a',
     },
     'ITA-Serie B': {
+        'ClubElo': 'ITA_2',
         'MatchHistory': 'I2',
         'MH_from_season': '9798',
     },
     'FRA-Ligue 1': {
+        'ClubElo': 'FRA_1',
         'MatchHistory': 'F1',
         'MH_from_season': '9394',
         'FiveThirtyEight': 'ligue-1',
     },
     'FRA-Ligue 2': {
+        'ClubElo': 'FRA_2',
         'MatchHistory': 'F2',
         'MH_from_season': '9697',
     },
     'NED-Eredivisie': {
+        'ClubElo': 'NED_1',
         'MatchHistory': 'N1',
         'MH_from_season': '9394',
     },
     'BEL-Jupiler League': {
+        'ClubElo': 'BEL_1',
         'MatchHistory': 'B1',
         'MH_from_season': '9596',
     },
     'POR-Liga 1': {
+        'ClubElo': 'POR_1',
         'MatchHistory': 'P1',
         'MH_from_season': '9495',
     },
     'TUR-Ligi 1': {
+        'ClubElo': 'TUR_1',
         'MatchHistory': 'T1',
         'MH_from_season': '9495',
     },
     'GRE-Ethniki Katigoria': {
+        'ClubElo': 'GRE_1',
         'MatchHistory': 'G1',
         'MH_from_season': '9495',
     },
@@ -125,6 +138,9 @@ LEAGUE_DICT = {
     },
     'MEX-Liga MX': {
         'FiveThirtyEight': 'liga-mx',
+    },
+    'Champions League': {
+        'FiveThirtyEight': 'champions-league',
     },
 }
 
@@ -174,7 +190,11 @@ class _BaseReader(object):
     @classmethod
     def _translate_league(cls, df, col='league'):
         """Dataframe: source league id to canonical id"""
-        df[col] = df[col].replace({v:k for k, v in cls._all_leagues().items()})
+        flip = {v:k for k, v in cls._all_leagues().items()}
+        mask = ~df[col].isin(flip)
+        df.loc[mask, col] = np.nan
+        df[col] = df[col].replace(flip)
+        # df[col] = df[col].replace({v:k for k, v in cls._all_leagues().items()})
         return df
 
     @property

@@ -117,9 +117,11 @@ class FiveThirtyEight(_BaseReader):
                 ) for f in forecast_by_date]
 
         df = (pd.concat(df_list)
+              .rename(columns={'name': 'team'})
+              .replace({'team': TEAMNAME_REPLACEMENTS})
               .replace('None', np.nan)
               .pipe(self._translate_league)
-              .set_index(['league', 'last_updated', 'name'])
+              .set_index(['league', 'last_updated', 'team'])
               .sort_index()
               )
         return df

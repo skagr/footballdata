@@ -1,13 +1,22 @@
 from datetime import datetime, timedelta
 import pandas as pd
-from .common import (_BaseReader, Path, datadir, TEAMNAME_REPLACEMENTS)
+from .common import (_BaseReader, Path, datadir,
+                     TEAMNAME_REPLACEMENTS, LEAGUE_DICT)
 
 
 class ClubElo(_BaseReader):
     """Provides pandas.DataFrames from CSV API at http://api.clubelo.com
 
     Data will be downloaded as necessary and cached locally in ./data
+
+    Since the source does not provide league names, this class will
+    not filter by league. League names will be inserted from the other
+    sources where available. Leagues that are only covered by clubelo.com
+    will have NaN values.
     """
+
+    def __init__(self):
+        super(ClubElo, self).__init__()
 
     def read_by_date(self, date=None):
         """Returns ELO scores for all teams at specified date in
@@ -20,7 +29,6 @@ class ClubElo(_BaseReader):
         date : datetime object or string like 'YYYY-MM-DD'
         """
 
-        # TODO: filter by league (country, level)
 
         if not date:
             date = datetime.today()
@@ -42,14 +50,17 @@ class ClubElo(_BaseReader):
                           dayfirst=False
                           )
               .rename(columns={'Club': 'team'})
+              .replace({'team': TEAMNAME_REPLACEMENTS})
+              .assign(league=lambda x: x['Country'] + '_' + x['Level'].astype(str))
+              .pipe(self._translate_league)
+              .reset_index()
+              .set_index('team')
               )
-
-        df.replace(
-            {'team': TEAMNAME_REPLACEMENTS},
-            inplace=True
-        )
-        df = df.reset_index().set_index('team')
         return df
+
+    def _get_league(self):
+        for k, v in LEAGUE_DICT.items():
+            pass
 
     def read_team_history(self, team, max_age=1):
         """Downloads full ELO history for one team
