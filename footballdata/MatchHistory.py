@@ -48,6 +48,7 @@ class MatchHistory(_BaseReader):
                             parse_dates=['Date'],
                             infer_datetime_format=True,
                             dayfirst=True,
+                            encoding='ISO-8859-1',
                             # error_bad_lines=False,
                             # warn_bad_lines=True
                             )
@@ -116,8 +117,8 @@ class MatchHistory(_BaseReader):
 
         # Strip trailing commas from Excel-generated csv
         filepath_tmp = Path('tmpfile')
-        with filepath_tmp.open(mode='w', encoding='UTF-8') as tmpfile:
-            with filepath.open(mode='r', encoding='UTF-8') as file:
+        with filepath_tmp.open(mode='w', encoding='ISO-8859-1') as tmpfile:
+            with filepath.open(mode='r', encoding='ISO-8859-1') as file:
                 for line in file.readlines():
                     tmpfile.write(line.rstrip(',\n'))
                     tmpfile.write('\n')
