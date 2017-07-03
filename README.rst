@@ -7,7 +7,7 @@ Football Data Analysis Toolkit
 
 A collection of wrappers over football [*]_ data from various websites / APIs. You get: Pandas dataframes with sensible, matching column names and identifiers across datasets. Data is downloaded when needed and cached locally. Example Jupyter Notebooks are in the Github repo.
 
-Status: Pre-Alpha
+Status: Beta; For the moment needs Python 3
 
 .. [*] Soccer, if you're a heathen
 
