@@ -88,6 +88,7 @@ class FiveThirtyEight(BaseReader):
                 .replace({'home_team': TEAMNAME_REPLACEMENTS,
                           'away_team': TEAMNAME_REPLACEMENTS})
                 .assign(game_id=lambda x: x['date'].dt.strftime("%Y-%m-%d") +
+                                          ' ' + x['home_team'] +
                                           '-' + x['away_team'])
                 .drop('id', axis=1)
                 .assign(season='1617')
