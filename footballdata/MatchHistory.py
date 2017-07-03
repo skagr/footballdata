@@ -5,10 +5,10 @@ import itertools
 import pandas as pd
 import re
 import warnings
-from .common import (_BaseReader, Path, datadir, TEAMNAME_REPLACEMENTS)
+from ._common import (BaseReader, Path, datadir, TEAMNAME_REPLACEMENTS)
 
 
-class MatchHistory(_BaseReader):
+class MatchHistory(BaseReader):
     """Provides pandas.DataFrames from CSV files available at
     http://www.football-data.co.uk/data.php
 

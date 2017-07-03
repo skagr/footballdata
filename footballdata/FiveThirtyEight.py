@@ -3,10 +3,10 @@
 import json
 import numpy as np
 import pandas as pd
-from .common import (_BaseReader, Path, datadir, TEAMNAME_REPLACEMENTS)
+from ._common import (BaseReader, Path, datadir, TEAMNAME_REPLACEMENTS)
 
 
-class FiveThirtyEight(_BaseReader):
+class FiveThirtyEight(BaseReader):
     """ Provides pandas.DataFrames from the fivethirtyeight.com project
     "2016-17 Club Soccer Predictions"
 

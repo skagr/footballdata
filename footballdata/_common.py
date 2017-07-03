@@ -243,7 +243,7 @@ def datadir(directory='data'):
     return path
 
 
-class _BaseReader(object):
+class BaseReader(object):
     """Base class for datareaders"""
 
     def __init__(self, leagues=None):

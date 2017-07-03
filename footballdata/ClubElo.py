@@ -2,11 +2,11 @@
 
 from datetime import datetime, timedelta
 import pandas as pd
-from .common import (_BaseReader, Path, datadir,
-                     TEAMNAME_REPLACEMENTS)
+from ._common import (BaseReader, Path, datadir,
+                      TEAMNAME_REPLACEMENTS)
 
 
-class ClubElo(_BaseReader):
+class ClubElo(BaseReader):
     """Provides pandas.DataFrames from CSV API at http://api.clubelo.com
 
     Data will be downloaded as necessary and cached locally in ./data
