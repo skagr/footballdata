@@ -1,10 +1,11 @@
+# -*- coding: utf-8 -*-
+
 from datetime import date
 import itertools
 import pandas as pd
 import re
 import warnings
 from .common import (_BaseReader, Path, datadir, TEAMNAME_REPLACEMENTS)
-
 
 
 class MatchHistory(_BaseReader):
@@ -71,7 +72,7 @@ class MatchHistory(_BaseReader):
             .dropna(subset=['home_team', 'away_team'])
             .assign(game_id=lambda x: x['date'].dt.strftime("%Y-%m-%d") +
                                       ' ' + x['home_team'] +
-                                      '-' + x['away_team'] )
+                                      '-' + x['away_team'])
             .reset_index()
             .set_index(['league', 'season', 'game_id'])
             .sort_index()
@@ -139,4 +140,4 @@ class MatchHistory(_BaseReader):
     def seasons(self, seasons):
         if isinstance(seasons, str) or isinstance(seasons, int):
             seasons = [seasons]
-        self._season_ids = [MatchHistory._season_code(s) for s in seasons]
+        self._season_ids = [self._season_code(s) for s in seasons]

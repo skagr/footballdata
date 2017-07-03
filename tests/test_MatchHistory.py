@@ -1,9 +1,10 @@
+# -*- coding: utf-8 -*-
+
 """
 Unittests for class footballdata.MatchHistory
 """
 
 import pandas as pd
-import footballdata as foo
 from .testfixtures import *  # noqa
 
 
@@ -12,6 +13,7 @@ from .testfixtures import *  # noqa
 def test_eredivisie_10y(match_eredivisie_10y):
     df = match_eredivisie_10y.read_games()
     assert isinstance(df, pd.DataFrame)
+
 
 def test_like_f538(match_f538):
     """2016 season, league intersection with FiveThirtyEight"""

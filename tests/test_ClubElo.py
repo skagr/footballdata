@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from __future__ import division
 """
 Unittests for class footballdata.clubelo
@@ -25,6 +27,7 @@ def test_club_hist_age(elo):
     max_age = timedelta(seconds=1)
     assert isinstance(elo.read_team_history('Feyenoord', max_age),
                       pd.DataFrame)
+
 
 def test_club_hist_replacement(elo):
     assert isinstance(elo.read_team_history('ADO Den Haag'),

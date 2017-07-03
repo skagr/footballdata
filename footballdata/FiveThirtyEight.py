@@ -1,11 +1,10 @@
-import json
+# -*- coding: utf-8 -*-
 
+import json
 import numpy as np
 import pandas as pd
-
 from .common import (_BaseReader, Path, datadir, TEAMNAME_REPLACEMENTS)
 
-#TODO teamname replacements
 
 class FiveThirtyEight(_BaseReader):
     """ Provides pandas.DataFrames from the fivethirtyeight.com project
@@ -29,7 +28,7 @@ class FiveThirtyEight(_BaseReader):
         super(FiveThirtyEight, self).__init__(leagues=leagues)
         self._data = {}
 
-        url =  'https://projects.fivethirtyeight.com/soccer-predictions/data.json'
+        url = 'https://projects.fivethirtyeight.com/soccer-predictions/data.json'
         filepath = Path(datadir(), 'FiveThirtyEight_1617.json')
         if not filepath.exists():
             self._download_and_save(url, filepath)
@@ -47,7 +46,7 @@ class FiveThirtyEight(_BaseReader):
                 .set_index('league')
                 .loc[self._selected_leagues.keys()]
                 .sort_index()
-              )
+        )
         return df
 
     def read_games(self):
@@ -82,14 +81,13 @@ class FiveThirtyEight(_BaseReader):
             pd.concat(
                 [(pd.DataFrame.from_dict(self._data[mkey])
                   .assign(league=lkey)
-                ) for lkey, mkey in keys]
+                  ) for lkey, mkey in keys]
             )
                 .rename(columns=col_rename)
                 .assign(date=lambda x: pd.to_datetime(x['date']))
                 .replace({'home_team': TEAMNAME_REPLACEMENTS,
                           'away_team': TEAMNAME_REPLACEMENTS})
                 .assign(game_id=lambda x: x['date'].dt.strftime("%Y-%m-%d") +
-                                          ' ' + x['home_team'] +
                                           '-' + x['away_team'])
                 .drop('id', axis=1)
                 .assign(season='1617')
@@ -98,7 +96,6 @@ class FiveThirtyEight(_BaseReader):
                 .set_index(['league', 'season', 'game_id'])
                 .sort_index()
         )
-        keys = [(v, v + '_matches') for v in self._selected_leagues.values()]
 
         return df
 

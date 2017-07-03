@@ -1,9 +1,9 @@
+# -*- coding: utf-8 -*-
+
 """
 Unittests for class footballdata.FiveThirtyEight
 """
 
-import pytest
-import footballdata as foo
 import pandas as pd
 
 from .testfixtures import *  # noqa

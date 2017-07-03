@@ -1,7 +1,9 @@
+# -*- coding: utf-8 -*-
+
 from datetime import datetime, timedelta
 import pandas as pd
 from .common import (_BaseReader, Path, datadir,
-                     TEAMNAME_REPLACEMENTS, LEAGUE_DICT)
+                     TEAMNAME_REPLACEMENTS)
 
 
 class ClubElo(_BaseReader):
@@ -29,7 +31,6 @@ class ClubElo(_BaseReader):
         date : datetime object or string like 'YYYY-MM-DD'
         """
 
-
         if not date:
             date = datetime.today()
         elif isinstance(date, str):
@@ -53,14 +54,10 @@ class ClubElo(_BaseReader):
               .replace({'team': TEAMNAME_REPLACEMENTS})
               .assign(league=lambda x: x['Country'] + '_' + x['Level'].astype(str))
               .pipe(self._translate_league)
-              .reset_index()
+              .reset_index(drop=True)
               .set_index('team')
               )
         return df
-
-    def _get_league(self):
-        for k, v in LEAGUE_DICT.items():
-            pass
 
     def read_team_history(self, team, max_age=1):
         """Downloads full ELO history for one team

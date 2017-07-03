@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import numpy as np
 import pprint
 import requests
@@ -9,16 +11,102 @@ else:
     from pathlib2 import Path
 
 TEAMNAME_REPLACEMENTS = {
+    'Akhisar': 'Akhisar Belediyespor',
+    'Alaves': 'Alavés',
     'Alkmaar': 'AZ Alkmaar',
+    'Ath Bilbao': 'Athletic Bilbao',
+    'Ath Madrid': 'Atletico Madrid',
+    'Atletico': 'Atletico Madrid',
+    'Aue': 'Erzgebirge Aue',
+    'Augsburg': 'FC Augsburg',
+    'Bayern': 'Bayern München',
+    'Bayern Munich': 'Bayern München',
+    'Betis': 'Real Betis',
+    'Beveren': 'Waasland-Beveren',
+    'Bilbao': 'Athletic Bilbao',
+    'Borussia Monchengladbach': 'Borussia Mönchengladbach',
+    'Bourg-Peronnas': 'Bourg Peronnas',
+    'Bournemouth': 'AFC Bournemouth',
+    'Braga': 'Sp Braga',
+    'Brugge': 'Club Brugge',
+    'Bueyueksehir': 'Büyüksehir',
+    'Buyuksehyr': 'Büyüksehir',
+    'Celta': 'Celta de Vigo',
+    'Celta Vigo': 'Celta de Vigo',
+    'Chievo': 'Chievo Verona',
+    'Darmstadt': 'SV Darmstadt 98',
     'Den Haag': 'ADO Den Haag',
+    'Depor': 'Deportivo La Coruña',
+    'Dijon': 'Dijon FCO',
+    'Dortmund': 'Borussia Dortmund',
+    'Duesseldorf': 'Fortuna Düsseldorf',
+    'Ein Frankfurt': 'Eintracht Frankfurt',
+    'Entella': 'Virtus Entella',
+    'Espanol': 'Espanyol',
+    'FC Cologne': 'FC Köln',
+    'FC Koln': 'FC Augsburg',
+    'Forest': 'Nottingham Forest',
+    'Fortuna Dusseldorf': 'Fortuna Düsseldorf',
+    'Frankfurt': 'Eintracht Frankfurt',
+    'Freiburg': 'SC Freiburg',
+    'Fuerth': 'Greuther Furth',
+    'Gijon': 'Sporting Gijón',
+    'Gladbach': 'Borussia Mönchengladbach',
     'Groningen': 'FC Groningen',
+    'Hamburg': 'Hamburg SV',
+    'Hertha': 'Hertha Berlin',
+    'Hoffenheim': 'TSG Hoffenheim',
+    'Hull': 'Hull City',
+    'Ingolstadt': 'FC Ingolstadt 04',
+    'Inter': 'Internazionale',
+    'Karabuekspor': 'Karabükspor',
+    'Karabukspor': 'Karabükspor',
+    'Kayseri': 'Kayserispor',
+    'Koeln': 'FC Köln',
+    'La Coruna': 'Deportivo La Coruña',
+    'Lautern': 'Kaiserslautern',
+    'Leicester': 'Leicester City',
+    'Leverkusen': 'Bayer Leverkusen',
+    "M'gladbach": 'Borussia Mönchengladbach',
+    'Malaga': 'Málaga',
+    'Man City': 'Leicester City',
+    'Man United': 'Manchester United',
+    'Milan': 'AC Milan',
+    'Monaco': 'AS Monaco',
+    'Muenchen 60': 'München 1860',
+    'Munich 1860': 'München 1860',
+    'Nancy': 'AS Nancy Lorraine',
     'Nijmegen': 'NEC Nijmegen',
+    "Nott'm Forest": 'Nottingham Forest',
+    'Nuernberg': 'Nürnberg',
+    'Nurnberg': 'Nürnberg',
     'PSV Eindhoven': 'PSV',
+    'Paris SG': 'Paris Saint-Germain',
+    'Pescara': 'US Pescara',
+    'Rennes': 'Stade Rennes',
     'Roda': 'Roda JC',
+    'Roma': 'AS Roma',
+    'Saint-Etienne': 'St Etienne',
+    'Schalke': 'Schalke 04',
+    'Sevilla': 'Sevilla FC',
+    'Sociedad': 'Real Sociedad',
+    'Sp Gijon': 'Sporting Gijón',
+    'Stoke': 'Stoke City',
+    'Swansea': 'Swansea City',
+    'Tottenham': 'Tottenham Hotspur',
     'Twente': 'FC Twente',
     'Utrecht': 'FC Utrecht',
-    'Zwolle': 'PEC Zwolle',
-}
+    'Vallecano': 'Rayo Vallecano',
+    'Waregem': 'Zulte Waregem',
+    'Werder': 'Werder Bremen',
+    'West Brom': 'West Bromwich Albion',
+    'West Ham': 'West Ham United',
+    'Wolfsburg': 'VfL Wolfsburg',
+    'Wuerzburg': 'Würzburger Kickers',
+    'Wurzburger Kickers': 'Würzburger Kickers',
+    'Zwolle': 'PEC Zwolle'}
+
+# TEAMNAME_REPLACEMENTS = {'Den Haag': 'ADO Den Haag'}
 
 LEAGUE_DICT = {
     'ENG-Premier League': {
@@ -190,7 +278,7 @@ class _BaseReader(object):
     @classmethod
     def _translate_league(cls, df, col='league'):
         """Dataframe: source league id to canonical id"""
-        flip = {v:k for k, v in cls._all_leagues().items()}
+        flip = {v: k for k, v in cls._all_leagues().items()}
         mask = ~df[col].isin(flip)
         df.loc[mask, col] = np.nan
         df[col] = df[col].replace(flip)
@@ -214,11 +302,10 @@ class _BaseReader(object):
             if isinstance(ids, str):
                 ids = [ids]
             tmp_league_dict = {}
-            for id in ids:
-                if id not in self._all_leagues():
+            for i in ids:
+                if i not in self._all_leagues():
                     raise ValueError(
                         "Invalid league '{}'.\nValid leagues are:\n{}"
-                            .format(id, pprint.pformat(self.available_leagues())))
-                tmp_league_dict[id] = self._all_leagues()[id]
+                            .format(i, pprint.pformat(self.available_leagues())))
+                tmp_league_dict[i] = self._all_leagues()[i]
             self._leagues_dict = tmp_league_dict
-

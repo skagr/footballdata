@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """
 Pytest fixtures for footballdata package
 """
@@ -24,6 +26,7 @@ def elo():
     """returns a correctly initialized instance of ClubElo"""
     return foo.ClubElo()
 
+
 @pytest.fixture
 def match_eredivisie_10y():
     """returns a MatchHistory instance for the last
@@ -31,6 +34,7 @@ def match_eredivisie_10y():
     seasons = [x for x in range(2007, 2017)]
     # seasons = 2007
     return foo.MatchHistory('NED-Eredivisie', seasons)
+
 
 @pytest.fixture
 def match_f538():
