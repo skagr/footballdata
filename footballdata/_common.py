@@ -132,7 +132,7 @@ LEAGUE_DICT = {
         'MatchHistory': 'EC',
         'MH_from_season': '0506'
     },  # Not available before 2005
-    'SCO-Premier League': {
+    'SCO-Premiership': {
         'ClubElo': 'SCO_1',
         'MatchHistory': 'SC0',
         'MH_from_season': '9495'
