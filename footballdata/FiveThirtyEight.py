@@ -41,11 +41,11 @@ class FiveThirtyEight(BaseReader):
         """Returns a Dataframe of selected leagues from the datasource"""
         df = (
             pd.DataFrame.from_dict(self._data['leagues'])
-                .rename(columns={'slug': 'league', 'id': 'league_id'})
-                .pipe(self._translate_league)
-                .set_index('league')
-                .loc[self._selected_leagues.keys()]
-                .sort_index()
+            .rename(columns={'slug': 'league', 'id': 'league_id'})
+            .pipe(self._translate_league)
+            .set_index('league')
+            .loc[self._selected_leagues.keys()]
+            .sort_index()
         )
         return df
 
@@ -83,14 +83,14 @@ class FiveThirtyEight(BaseReader):
                   .assign(league=lkey)
                   ) for lkey, mkey in keys]
             )
-                .rename(columns=col_rename)
-                .assign(date=lambda x: pd.to_datetime(x['date']))
-                .replace({'home_team': TEAMNAME_REPLACEMENTS,
-                          'away_team': TEAMNAME_REPLACEMENTS})
-                .drop('id', axis=1)
-                .assign(season='1617')
-                .replace('None', np.nan)
-                .pipe(self._translate_league)
+            .rename(columns=col_rename)
+            .assign(date=lambda x: pd.to_datetime(x['date']))
+            .replace({'home_team': TEAMNAME_REPLACEMENTS,
+                      'away_team': TEAMNAME_REPLACEMENTS})
+            .drop('id', axis=1)
+            .assign(season='1617')
+            .replace('None', np.nan)
+            .pipe(self._translate_league)
         )
 
         df['game_id'] = df.apply(self._make_game_id, axis=1)

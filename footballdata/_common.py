@@ -136,7 +136,7 @@ LEAGUE_DICT = {
         'ClubElo': 'SCO_1',
         'MatchHistory': 'SC0',
         'MH_from_season': '9495'
-    }, # Previously Scottish Premier League
+    },  # Previously Scottish Premier League
     'SCO-Division 1': {
         'MatchHistory': 'SC1',
         'MH_from_season': '9495'
@@ -315,6 +315,6 @@ class BaseReader(object):
                 if i not in self._all_leagues():
                     raise ValueError(
                         "Invalid league '{}'.\nValid leagues are:\n{}"
-                            .format(i, pprint.pformat(self.available_leagues())))
+                        .format(i, pprint.pformat(self.available_leagues())))
                 tmp_league_dict[i] = self._all_leagues()[i]
             self._leagues_dict = tmp_league_dict

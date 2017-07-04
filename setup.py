@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name='footballdata',
-    version='0.2.0',
+    version='0.3.0',
     url='https://github.com/skagr/footballdata',
     license='MIT',
 
@@ -26,18 +26,23 @@ setuptools.setup(
         'pathlib2;python_version<"3.4"'
     ],
 
-    extras_require={
-        'test': ['pytest'],
-    },
-
     classifiers=[
+        # 'Development Status :: 1 - Planning',
+        # 'Development Status :: 2 - Pre-Alpha',
+        # 'Development Status :: 3 - Alpha',
         'Development Status :: 4 - Beta',
+        # 'Development Status :: 5 - Production/Stable',
+        # 'Development Status :: 6 - Mature',
+        # 'Development Status :: 7 - Inactive',
         'License :: OSI Approved :: MIT License',
         'Topic :: Software Development :: Libraries',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.2',
+        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
     ],
