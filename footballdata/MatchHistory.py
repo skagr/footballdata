@@ -56,9 +56,7 @@ class MatchHistory(BaseReader):
                             parse_dates=['Date'],
                             infer_datetime_format=True,
                             dayfirst=True,
-                            encoding='ISO-8859-1',
-                            # error_bad_lines=False,
-                            # warn_bad_lines=True
+                            encoding='UTF-8',
                             )
                     .assign(season=skey)
             )
@@ -70,13 +68,11 @@ class MatchHistory(BaseReader):
             .replace({'home_team': TEAMNAME_REPLACEMENTS,
                       'away_team': TEAMNAME_REPLACEMENTS})
             .dropna(subset=['home_team', 'away_team'])
-            .assign(game_id=lambda x: x['date'].dt.strftime("%Y-%m-%d") +
-                                      ' ' + x['home_team'] +
-                                      '-' + x['away_team'])
-            .reset_index()
-            .set_index(['league', 'season', 'game_id'])
-            .sort_index()
         )
+
+        df['game_id'] = df.apply(self._make_game_id, axis=1)
+        df.set_index(['league', 'season', 'game_id'], inplace=True)
+        df.sort_index(inplace=True)
         return df
 
     @staticmethod
@@ -123,9 +119,9 @@ class MatchHistory(BaseReader):
         """
         super(MatchHistory, cls)._download_and_save(url, filepath)
 
-        # Strip trailing commas from Excel-generated csv
+        # Strip trailing commas from Excel-generated csv, fix encoding
         filepath_tmp = Path('tmpfile')
-        with filepath_tmp.open(mode='w', encoding='ISO-8859-1') as tmpfile:
+        with filepath_tmp.open(mode='w', encoding='UTF-8') as tmpfile:
             with filepath.open(mode='r', encoding='ISO-8859-1') as file:
                 for line in file.readlines():
                     tmpfile.write(line.rstrip(',\n'))

@@ -87,17 +87,15 @@ class FiveThirtyEight(BaseReader):
                 .assign(date=lambda x: pd.to_datetime(x['date']))
                 .replace({'home_team': TEAMNAME_REPLACEMENTS,
                           'away_team': TEAMNAME_REPLACEMENTS})
-                .assign(game_id=lambda x: x['date'].dt.strftime("%Y-%m-%d") +
-                                          ' ' + x['home_team'] +
-                                          '-' + x['away_team'])
                 .drop('id', axis=1)
                 .assign(season='1617')
                 .replace('None', np.nan)
                 .pipe(self._translate_league)
-                .set_index(['league', 'season', 'game_id'])
-                .sort_index()
         )
 
+        df['game_id'] = df.apply(self._make_game_id, axis=1)
+        df.set_index(['league', 'season', 'game_id'], inplace=True)
+        df.sort_index(inplace=True)
         return df
 
     def read_forecasts(self):
