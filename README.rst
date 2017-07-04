@@ -78,7 +78,7 @@ See the Jupyter Notebooks here for more elaborate examples: https://github.com/s
 Compatibility
 -------------
 
-Tested against Python 2.7 and 3.3-3.6
+Tested against Python 2.7 and 3.4-3.6
 
 Licence
 -------
