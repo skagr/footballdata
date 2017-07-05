@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime, timedelta
+import numpy as np
 import pandas as pd
 import re
 from unidecode import unidecode
@@ -54,6 +55,8 @@ class ClubElo(BaseReader):
                           )
               .rename(columns={'Club': 'team'})
               .replace({'team': TEAMNAME_REPLACEMENTS})
+              .replace('None', np.nan)
+              .assign(Rank=lambda x: x['Rank'].astype('float'))
               .assign(league=lambda x: x['Country'] + '_' + x['Level'].astype(str))
               .pipe(self._translate_league)
               .reset_index(drop=True)
@@ -104,14 +107,13 @@ class ClubElo(BaseReader):
                               infer_datetime_format=True,
                               dayfirst=False)
                   .rename(columns={'Club': 'team'})
+                  .replace('None', np.nan)
+                  .assign(Rank=lambda x: x['Rank'].astype('float'))
                   .set_index('From')
                   .sort_index()
                   )
             if len(df) > 0:
-                df.replace(
-                    {'team': TEAMNAME_REPLACEMENTS},
-                    inplace=True
-                )
+                df.replace({'team': TEAMNAME_REPLACEMENTS}, inplace=True)
                 return df
 
         # clubelo.com returns a CSV with just a header for nonexistent club
