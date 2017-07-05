@@ -80,6 +80,7 @@ class ClubElo(BaseReader):
 
         teams_to_check = [k.replace(' ', '') for k, v in TEAMNAME_REPLACEMENTS.items() if v == team]
         teams_to_check.append(team.replace(' ', ''))
+        teams_to_check = [x for x in teams_to_check if x.isalpha()]
 
         for _team in teams_to_check:
             filepath = Path(datadir(), 'clubelo_{}.csv'.format(_team))
