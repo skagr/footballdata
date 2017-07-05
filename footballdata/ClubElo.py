@@ -2,6 +2,7 @@
 
 from datetime import datetime, timedelta
 import pandas as pd
+import re
 from unidecode import unidecode
 from ._common import (BaseReader, Path, datadir,
                       TEAMNAME_REPLACEMENTS)
@@ -83,7 +84,8 @@ class ClubElo(BaseReader):
         teams_to_check.append(team)
 
         for i, v in enumerate(teams_to_check):
-            teams_to_check[i] = unidecode(teams_to_check[i]).replace(' ', '')
+            teams_to_check[i] = unidecode(teams_to_check[i])
+            teams_to_check[i] = re.sub("[\s']", "", teams_to_check[i])
 
         for _team in teams_to_check:
             filepath = Path(datadir(), 'clubelo_{}.csv'.format(_team))
