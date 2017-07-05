@@ -51,9 +51,10 @@ Installation
 Dependencies
 ~~~~~~~~~~~~
 
-- Numpy
+- `Numpy <http://www.numpy.org/>`_
 - `Pandas <http://pandas.pydata.org/>`_
 - `Requests <http://docs.python-requests.org/en/master/>`_
+- `Unidecode <https://pypi.python.org/pypi/Unidecode>`_
 
 Usage
 -----

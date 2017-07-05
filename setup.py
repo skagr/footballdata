@@ -23,6 +23,7 @@ setuptools.setup(
         'numpy',
         'pandas',
         'requests',
+        'unidecode',
         'pathlib2;python_version<"3.4"'
     ],
 
