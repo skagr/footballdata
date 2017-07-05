@@ -69,7 +69,7 @@ TEAMNAME_REPLACEMENTS = {
     'Leverkusen': u'Bayer Leverkusen',
     "M'gladbach": u'Borussia Mönchengladbach',
     'Malaga': u'Málaga',
-    'Man City': u'Leicester City',
+    'Man City': u'Manchester City',
     'Man United': u'Manchester United',
     'Milan': u'AC Milan',
     'Monaco': u'AS Monaco',
