@@ -12,8 +12,10 @@ else:
 
 TEAMNAME_REPLACEMENTS = {
     'Akhisar': u'Akhisar Belediyespor',
+    'Ajaccio': u'Ajaccio GFCO',
     'Alaves': u'Alavés',
     'Alkmaar': u'AZ Alkmaar',
+    'Arles': u'Arles-Avignon',
     'Ath Bilbao': u'Athletic Bilbao',
     'Ath Madrid': u'Atletico Madrid',
     'Atletico': u'Atletico Madrid',
@@ -43,6 +45,7 @@ TEAMNAME_REPLACEMENTS = {
     'Ein Frankfurt': u'Eintracht Frankfurt',
     'Entella': u'Virtus Entella',
     'Espanol': u'Espanyol',
+    'EvianTG': u'Evian Thonon Gaillard',
     'FC Cologne': u'FC Köln',
     'FC Koln': u'FC Augsburg',
     'Forest': u'Nottingham Forest',
@@ -86,6 +89,7 @@ TEAMNAME_REPLACEMENTS = {
     'Rennes': u'Stade Rennes',
     'Roda': u'Roda JC',
     'Roma': u'AS Roma',
+    'Rostock': 'Hansa Rostock',
     'Saint-Etienne': u'St Etienne',
     'Schalke': u'Schalke 04',
     'Sevilla': u'Sevilla FC',
