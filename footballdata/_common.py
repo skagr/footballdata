@@ -46,6 +46,7 @@ TEAMNAME_REPLACEMENTS = {
     'Entella': u'Virtus Entella',
     'Espanol': u'Espanyol',
     'EvianTG': u'Evian Thonon Gaillard',
+    'Evian TG': u'Evian Thonon Gaillard',
     'FC Cologne': u'FC Köln',
     'FC Koln': u'FC Augsburg',
     'Forest': u'Nottingham Forest',
