@@ -1,5 +1,5 @@
-Football Data Analysis Toolkit
-==============================
+Football Data
+=============
 
 .. image:: https://img.shields.io/pypi/v/footballdata.svg
     :target: https://pypi.python.org/pypi/footballdata
