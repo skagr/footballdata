@@ -23,7 +23,7 @@ fivethirtyeight.com
 
 Season 2016-17 predictions and results for the top European and American leagues.
 
-* Data no longer available on fivethirtyeight.com, I've added it to the repository
+* Data no longer available on fivethirtyeight.com, I've `added it to the repository <https://github.com/skagr/footballdata/tree/master/data>`_
 
 football-data.co.uk
 ~~~~~~~~~~~~~~~~~~~
